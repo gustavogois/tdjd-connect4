@@ -74,6 +74,16 @@ public class Connect4 {
             winner = currentPlayer;
             System.out.println(currentPlayer + " wins");
         }
+        // Horizontal check
+        stringJoiner = new StringJoiner("");
+        for (int column = 0; column < COLUMNS; ++column) {
+            stringJoiner.add(board[column][row].toString());
+        }
+        if (winPattern.matcher(stringJoiner.toString()).matches()) {
+            winner = currentPlayer;
+            System.out.println(currentPlayer + " wins");
+            return;
+        }
     }
 
     private int getNumberOfDiscsInColumn(int column) {
