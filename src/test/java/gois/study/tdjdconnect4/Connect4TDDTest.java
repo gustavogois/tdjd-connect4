@@ -64,4 +64,16 @@ public class Connect4TDDTest {
         exception.expectMessage("No more room in column " + column);
         tested.putDiscInColumn(column);
     }
+
+    @Test
+    public void whenFirstPlayerPlaysThenDiscColorIsRed() {
+        assertThat(tested.getCurrentPlayer(), is("R"));
+    }
+
+    @Test
+    public void whenSecondPlayerPlaysThenDiscColorIsRed() {
+        int column = 1;
+        tested.putDiscInColumn(column);
+        assertThat(tested.getCurrentPlayer(), is("G"));
+    }
 }
