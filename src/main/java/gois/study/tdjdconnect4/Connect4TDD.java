@@ -13,6 +13,7 @@ public class Connect4TDD {
     private String currentPlayer = RED;
     private String[][] board = new String[ROWS][COLUMNS];
 
+
     public Connect4TDD() {
         for (String[] row : board) Arrays.fill(row, EMPTY);
     }

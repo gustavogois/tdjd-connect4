@@ -5,8 +5,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.*;
 
 public class Connect4TDDTest {
 
@@ -14,10 +19,12 @@ public class Connect4TDDTest {
     public ExpectedException exception = ExpectedException.none();
 
     private Connect4TDD tested;
+    private OutputStream output;
 
     @Before
     public void beforeEachTest() {
-        tested = new Connect4TDD();
+        output = new ByteArrayOutputStream();
+        tested = new Connect4TDD(new PrintStream(output));
     }
 
     @Test
@@ -75,5 +82,18 @@ public class Connect4TDDTest {
         int column = 1;
         tested.putDiscInColumn(column);
         assertThat(tested.getCurrentPlayer(), is("G"));
+    }
+
+    @Test
+    public void whenAskedForCurrentPlayerTheOutputNotice() {
+        tested.getCurrentPlayer();
+        assertThat(output.toString(), containsString("Player R turn"));
+    }
+
+    @Test
+    public void whenADiscIsIntroducedTheBoardIsPrinted() {
+        int column = 1;
+        tested.putDiscInColumn(column);
+        assertThat(output.toString(), containsString("| |R| | | | | |"));
     }
 }
