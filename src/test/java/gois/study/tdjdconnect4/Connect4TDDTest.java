@@ -109,4 +109,15 @@ public class Connect4TDDTest {
                 tested.putDiscInColumn(column);
         assertTrue("The game must be finished", tested.isFinished());
     }
+
+    @Test
+    public void when4VerticalDiscsAreConnectedThenPlayerWins() {
+        for (int row = 0; row < 3; row++) {
+            tested.putDiscInColumn(1); // R
+            tested.putDiscInColumn(2); // G
+        }
+        assertThat(tested.getWinner(), isEmptyString());
+        tested.putDiscInColumn(1); // R
+        assertThat(tested.getWinner(), is("R"));
+    }
 }
