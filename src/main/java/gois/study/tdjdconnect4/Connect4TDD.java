@@ -70,6 +70,10 @@ public class Connect4TDD {
         return row;
     }
 
+    public boolean isFinished() {
+        return getNumberOfDiscs() == ROWS * COLUMNS;
+    }
+
     private void checkColumn(int column) {
         if (column < 0 || column >= COLUMNS)
             throw new RuntimeException("Invalid column " + column);
