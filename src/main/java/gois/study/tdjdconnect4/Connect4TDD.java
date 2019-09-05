@@ -3,6 +3,7 @@ package gois.study.tdjdconnect4;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.StringJoiner;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -13,11 +14,12 @@ public class Connect4TDD {
     private static final String RED = "R";
     private static final String GREEN = "G";
     private static final String DELIMITER = "|";
+    private static final int DISCS_TO_WIN = 4;
 
     private String currentPlayer = RED;
     private String[][] board = new String[ROWS][COLUMNS];
     private PrintStream outputChannel;
-
+    private String winner = "";
 
     public Connect4TDD() {
         for (String[] row : board) Arrays.fill(row, EMPTY);
@@ -66,6 +68,7 @@ public class Connect4TDD {
         checkPositionToInsert(row, column);
         board[row][column] = currentPlayer;
         printBoard();
+        checkWinner(row, column);
         switchPlayer();
         return row;
     }
@@ -82,5 +85,25 @@ public class Connect4TDD {
     private void checkPositionToInsert(int row, int column) {
         if (row == ROWS)
             throw new RuntimeException("No more room in column " + column);
+    }
+
+    private void checkWinner(int row, int column) {
+        if (winner.isEmpty()) {
+            String colour = board[row][column];
+            Pattern winPattern =
+                    Pattern.compile(".*" + colour + "{" +
+                            DISCS_TO_WIN + "}.*");
+
+            String vertical = IntStream
+                    .range(0, ROWS)
+                    .mapToObj(r -> board[r][column])
+                    .reduce(String::concat).get();
+            if (winPattern.matcher(vertical).matches())
+                winner = colour;
+        }
+    }
+
+    public String getWinner() {
+        return winner;
     }
 }
