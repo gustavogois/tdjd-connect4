@@ -100,6 +100,12 @@ public class Connect4TDD {
                     .reduce(String::concat).get();
             if (winPattern.matcher(vertical).matches())
                 winner = colour;
+
+            String horizontal = Stream
+                    .of(board[row])
+                    .reduce(String::concat).get();
+            if (winPattern.matcher(horizontal).matches())
+                winner = colour;
         }
     }
 
